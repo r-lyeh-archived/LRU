@@ -6,9 +6,12 @@
 #include <map>
 #include <list>
 
-// list container = ~deque container, where:
+// why list container? ~deque container, where only:
 // erase, pop_front, pop_back, clear
-// Invalidates only the iterators and references to the erased elements.
+// will invalidate the iterators and references to the erased elements.
+
+// @todo:
+// split cache class into lru::list and lru::map different classes eventually.
 
 namespace lru {
 
@@ -25,15 +28,17 @@ namespace lru {
         using value_type = V;
 
         explicit
-        cache( std::initializer_list<K> list = {} ) : list_t(), limit( list.size() ) {
-            for( auto &it : list ) { // @todo: std::rbegin(list) (c++14)
-                insert( it );
+        cache( const std::initializer_list<K> &&list = {} ) : list_t(), limit( list.size() ) {
+            std::list<K> inv( list );
+            for( auto it = inv.rbegin(), end = inv.rend(); it != end; ++it ) { // @todo: std::rbegin(list) (c++14)
+                insert( *it );
             }
         }
 
-        cache( std::initializer_list<std::pair<K,V>> list ) : list_t(), limit( list.size() ) {
-            for( auto &it : list ) { // @todo: std::rbegin(list) (c++14)
-                insert( it.first, it.second );
+        cache( const std::initializer_list<std::pair<K,V>> &&list ) : list_t(), limit( list.size() ) {
+            std::list<std::pair<K,V>> inv( list );
+            for( auto it = inv.rbegin(), end = inv.rend(); it != end; ++it ) { // @todo: std::rbegin(list) (c++14)
+                insert( it->first, it->second );
             }
         }
 
@@ -47,14 +52,15 @@ namespace lru {
         }
 
         typename list_t::iterator find( const K &k ) {
+            // if not found return end() list iterator
             auto found = map.find( k );
             if( found == map.end() ) {
                 return this->end();
             }
-            // reinsert & promote to top
-			auto copy = found->second->second;
+            // if found reinsert (promote to top) and return it
+            auto copy = found->second->second;
             insert( k, copy );
-            return found->second;
+            return this->begin();
         }
 
         typename list_t::iterator insert( const K &k, const V &v ) {
@@ -78,7 +84,7 @@ namespace lru {
             return found->second;
         }
 
-        typename list_t::iterator  insert( const V &v ) {
+        typename list_t::iterator insert( const V &v ) {
             return insert( K(v), v );
         }
 
@@ -93,6 +99,7 @@ namespace lru {
         }
 
         V &operator[]( const K &k ) {
+            // if found, return it (~promoted), else insert it
             auto found = find(k);
             if( found == this->end() ) {
                 return insert(k)->second;

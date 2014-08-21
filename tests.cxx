@@ -4,7 +4,13 @@
 
 int main()
 {
-    /* test list case */
+    /* test list case #1 */
+    {
+        lru::list<int> lruCache({1,2,3,4,5,6,7,8,9,10,11,12});
+        std::cout << lruCache << std::endl;
+    }
+
+    /* test list case #2 */
     {
         lru::list<int> lruCache; //({1,2,3,4,5,6,7,8,9,10,11,12});
 
@@ -86,15 +92,16 @@ int main()
     }
 
     /* test map #2 */
-    /*
     {
         lru::map<char,int> lruCache( {{'a',1}, {'b', 2}, {'c', 3}, {'d', 4}} );
 
         std::cout << lruCache << std::endl;
+        std::cout << lruCache['a'] << std::endl;
+        std::cout << lruCache['b'] << std::endl;
+        std::cout << lruCache['c'] << std::endl;
         std::cout << lruCache['d'] << std::endl;
-        assert( lruCache['d'] == 4 );
+        assert(lruCache['d'] == 4);
     }
-    */
 
     std::cout << "All ok." << std::endl;
 }

@@ -9,10 +9,11 @@ LRU
 
 ### Quick tutorial
 - Create a `lru::list<T>` or `lru::map<K,V>` structure as needed.
-- Both structures are STL friendly and API matches `std::list` members API.
-- Fix cache limit by calling `.resize(N)` to desired `N` elements in runtime.
+- Both structures are `ostream` friendly and match STL `std::list` members API (`cbegin`, `begin`, etc).
+- Specify a cache limit by calling `.resize(N)` to desired `N` elements in runtime.
 - If `N` is smaller than `.size()` values in tail will be truncated.
-- `.insert(K)` or `.insert(K,V)` to insert elements to head.
+- `.insert(K)` or `.insert(K,V)` to insert elements into head.
+- If `.size()` is bigger than `N`, tail element will be removed.
 - `.erase(K)` to remove elements.
 - `.find(K)` on inserted keys will promote element to head and return actual `.begin()` iterator.
 - `.find(K)` on deprecated keys will return `.end()`.
@@ -31,13 +32,13 @@ int main() {
     map[ 99] = 'b';  // 99:'b' 100:'a'
     map[ 98] = 'c';  // 98:'c' 99:'b' 100:'a'
     map[ 97] = 'd';  // 97:'d' 98:'c' 99:'b' ; will also pop {100:'a'} from tail
-    std::cout << map[99] << std::endl; // prints 'd' and promotes {99:'b'} to head
+    std::cout << map[99] << std::endl; // prints 'b' and promotes {99:'b'} to head
     std::cout << map << std::endl;     // prints 99:'b' 97:'d' 98:'c'
 }
 ```
 
 ### Possible output
 ```
-c
-99:c 97:d 98:c
+b
+99:b 97:d 98:c
 ```
