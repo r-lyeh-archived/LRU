@@ -1,5 +1,5 @@
 // A lightweight LRU cache structure for list<T> and map<K,V> containers. Written in C++11
-// - rlyeh, mit licensed.
+// - rlyeh, BOOST licensed.
 
 #pragma once
 

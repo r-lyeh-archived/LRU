@@ -5,7 +5,7 @@ LRU
 - LRU is stand-alone. No dependencies.
 - LRU is tiny. Header only.
 - LRU is cross-platform.
-- LRU is MIT licensed.
+- LRU is BOOST licensed.
 
 ### Quick tutorial
 - Create a `lru::list<T>` or `lru::map<K,V>` structure as needed.
