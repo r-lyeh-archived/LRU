@@ -1,4 +1,4 @@
-LRU
+LRU <a href="https://travis-ci.org/r-lyeh/LRU"><img src="https://api.travis-ci.org/r-lyeh/LRU.svg?branch=master" align="right" /></a>
 ===
 
 - LRU is a lightweight [LRU cache structure](http://en.wikipedia.org/wiki/Least_Recently_Used#LRU) for list<T> and map<K,V> containers. Written in C++11
