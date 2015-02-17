@@ -5,6 +5,7 @@
 
 #include <map>
 #include <list>
+#include <typeinfo>
 
 // why list container? ~deque container, where only:
 // erase, pop_front, pop_back, clear
@@ -19,7 +20,7 @@ namespace lru {
     class cache : public std::list< std::pair<K,V> > {
         const bool equivalent = ( typeid(K).hash_code() == typeid(V).hash_code() );
         using list_t = std::list< std::pair<K,V> >;
-        std::map<typename K,typename list_t::iterator> map;
+        std::map<K,typename list_t::iterator> map;
         size_t limit;
 
     public:
