@@ -5,7 +5,7 @@ LRU <a href="https://travis-ci.org/r-lyeh/LRU"><img src="https://api.travis-ci.o
 - LRU is stand-alone. No dependencies.
 - LRU is tiny. Header only.
 - LRU is cross-platform.
-- LRU is BOOST licensed.
+- LRU is zlib/libpng licensed.
 
 ### Quick tutorial
 - Create a `lru::list<T>` or `lru::map<K,V>` structure as needed.
